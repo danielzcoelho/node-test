@@ -1,19 +1,37 @@
 const utils = require('./utils');
+const expect = require ('expect');
 
 it('Should add two numbers', () => {
   var res = utils.add(33, 11);
 
-  if (res !== 44) {
-    throw new Error(`Expected 44, but got ${res}.`);
-  };
+  expect(res).toBeA('number').toBe(44);
 
 });
 
-it ('Should multiply one number by itself', () => {
-  var res = utils.square(3);
+it ('Should multiply one number by itself async', (done) => {
+  utils.asyncSquare(3, (res) => {
+    expect(res).toBeA('number').toBe(9);
+    done();
+  });
+});
 
-  if (res !== 9) {
-    throw new Error(`Expected 9, but got ${res}.`)
+it ('Should set firstName and lastName', () => {
+  var user = {
+    location: 'Osasco',
+    age: '38'
   };
 
+  var res = utils.setName(user, 'Daniel Coelho');
+
+  expect(res).toInclude({
+    firstName: 'Daniel',
+    lastName: 'Coelho'
+  });
+});
+
+it ('Should add two numbers async', (done) => {
+  utils.asyncAdd(4, 3, (sum) => {
+    expect(sum).toBeA('number').toBe(7);
+    done();
+  });
 });
